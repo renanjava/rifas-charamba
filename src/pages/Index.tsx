@@ -8,7 +8,7 @@ import productHero from "@/assets/product-hero.jpg";
 const Index = () => {
   const handleReserva = () => {
     window.location.href =
-      "https://www.abacatepay.com/pay/bill_4NTRadYJj6njmnUy6skz4u1U";
+      "https://abacatepay.com/pay/bill_q3wyF4FpeHqctrfkrttMmtBm";
   };
 
   return (
