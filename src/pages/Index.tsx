@@ -8,7 +8,7 @@ import productHero from "@/assets/product-hero.jpg";
 const Index = () => {
   const handleReserva = () => {
     window.location.href =
-      "https://abacatepay.com/pay/bill_q3wyF4FpeHqctrfkrttMmtBm";
+      "https://loja.infinitepay.io/renan-g-l/akc2405-bilhete-iphone-xr";
   };
 
   return (
@@ -150,12 +150,12 @@ const Index = () => {
                     Siga nosso Instagram
                   </h4>
                   <a
-                    href="https://instagram.com/dia_da_sorte.rifas"
+                    href="https://instagram.com/rifas.dia_da_sorte"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-lg font-semibold text-primary hover:text-primary-glow transition-colors inline-flex items-center gap-2"
                   >
-                    @dia_da_sorte.rifas
+                    @rifas.dia_da_sorte
                   </a>
                   <p className="text-sm text-muted-foreground mt-2">
                     Acompanhe os sorteios, ganhadores e novidades!
