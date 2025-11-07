@@ -2,11 +2,22 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, Shield, Calendar } from "lucide-react";
+import { Instagram, Shield, Calendar, Info } from "lucide-react";
 import productHero from "@/assets/product-hero.jpg";
 import FAQSection from "@/components/FAQSection";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Index = () => {
+  const [open, setOpen] = useState(false);
+
   const handleReserva = () => {
     window.location.href =
       "https://loja.infinitepay.io/renan-g-l/akc2405-bilhete-iphone-xr";
@@ -132,7 +143,7 @@ const Index = () => {
             </Card>
           </div>
 
-          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent mb-8">
             <CardContent className="p-8 text-center">
               <div className="flex flex-col items-center gap-4">
                 <div className="p-4 rounded-full bg-primary/10">
@@ -158,8 +169,123 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <FAQSection />
+          <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-transparent mb-8 animate-fade-in">
+            <CardContent className="p-8">
+              <div className="flex flex-col items-center gap-6 text-center">
+                <div className="p-4 rounded-full bg-accent/10">
+                  <Info className="w-8 h-8 text-accent" />
+                </div>
+                <div className="space-y-3">
+                  <h4 className="text-2xl font-bold">
+                    Regra Oficial do Sorteio
+                  </h4>
+                  <div className="max-w-2xl mx-auto space-y-2">
+                    <p className="text-lg font-semibold text-foreground">
+                      Ganhador = últimos 3 dígitos do 1º prêmio da Loteria
+                      Federal.
+                    </p>
+                    <p className="text-muted-foreground">
+                      Se passar do último número da rifa, subtrai o total da
+                      rifa até voltar para a faixa.
+                    </p>
+                  </div>
 
+                  <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="mt-4 border-accent/50 hover:bg-accent/10"
+                      >
+                        Ver Exemplos
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl">
+                          Como Funciona o Sorteio
+                        </DialogTitle>
+                        <DialogDescription className="text-base pt-4">
+                          <div className="space-y-4 text-left">
+                            <p>
+                              O sorteio desta ação é baseado nos{" "}
+                              <strong>
+                                3 últimos dígitos do 1º prêmio da Loteria
+                                Federal
+                              </strong>
+                              .
+                            </p>
+
+                            <p>
+                              <strong>Exemplo:</strong> Se o resultado da
+                              Loteria Federal for "51234", usamos apenas "234".
+                            </p>
+
+                            <p>
+                              Se o número obtido estiver dentro da faixa de
+                              números da ação (por exemplo, de 001 até 159),
+                              esse é o número ganhador.
+                            </p>
+
+                            <div className="bg-muted/50 p-4 rounded-lg space-y-2">
+                              <p className="font-semibold">
+                                Caso o resultado seja maior que o último número
+                                da rifa, aplicamos a seguinte regra de ajuste:
+                              </p>
+                              <p className="pl-4">
+                                • Subtraímos o total de números da rifa até que
+                                o resultado fique dentro da faixa.
+                              </p>
+                            </div>
+
+                            <div className="space-y-3 pt-2">
+                              <p className="font-semibold text-lg">
+                                Exemplos (rifa de 001 a 159):
+                              </p>
+
+                              <div className="space-y-2 pl-4">
+                                <p className="font-mono bg-primary/5 p-3 rounded">
+                                  • Resultado <strong>056</strong> → Ganhador:{" "}
+                                  <strong className="text-primary">056</strong>
+                                </p>
+
+                                <p className="font-mono bg-primary/5 p-3 rounded">
+                                  • Resultado <strong>159</strong> → Ganhador:{" "}
+                                  <strong className="text-primary">159</strong>
+                                </p>
+
+                                <p className="font-mono bg-accent/5 p-3 rounded">
+                                  • Resultado <strong>256</strong> → 256 - 159 =
+                                  097 → Ganhador:{" "}
+                                  <strong className="text-accent">097</strong>
+                                </p>
+
+                                <p className="font-mono bg-accent/5 p-3 rounded">
+                                  • Resultado <strong>356</strong> → 356 - 159 =
+                                  197 → 197 - 159 = 038 → Ganhador:{" "}
+                                  <strong className="text-accent">038</strong>
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="bg-primary/5 p-4 rounded-lg mt-4">
+                              <p className="font-semibold">
+                                Essa regra garante que todos os números tenham a
+                                mesma chance de vencer, mantendo o sorteio
+                                transparente, verificável e sem interferência
+                                manual.
+                              </p>
+                            </div>
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <FAQSection />
         </div>
       </main>
 
