@@ -203,12 +203,6 @@ const Index = () => {
                       </span>
                     </div>
 
-                    <div>
-                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-secondary/60 text-secondary-foreground tracking-wide">
-                        Data do sorteio: {product.result_date ?? "Em breve..."}
-                      </span>
-                    </div>
-
                     <Button
                       onClick={handleReserva}
                       size="lg"
@@ -226,7 +220,7 @@ const Index = () => {
                     >
                       Realizar Reserva
                     </Button>
-                    <div className="w-full">
+                    <div className="w-full pt-14">
                       <div className="flex justify-between mb-2 text-sm text-muted-foreground">
                         <span>Progresso da Rifa</span>
                         <span>{porcentagem}%</span>
@@ -238,6 +232,12 @@ const Index = () => {
                           style={{ width: `${porcentagem}%` }}
                         />
                       </div>
+                    </div>
+
+                    <div>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-secondary/60 text-secondary-foreground tracking-wide">
+                        Data do sorteio: {product.result_date ?? "Em breve..."}
+                      </span>
                     </div>
                   </div>
                 </div>
