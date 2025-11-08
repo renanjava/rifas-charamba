@@ -7,6 +7,11 @@ export const FAQSection = () => {
 
   const faqs = [
     {
+      pergunta: "Como eu realizo uma reserva?",
+      resposta:
+        "Ao clicar na rifa, você pode selecionar a quantidade de números desejada. Depois, clique em 'Comprar Agora' para visualizar o valor total e preencher seu nome, telefone e e-mail. Aceitamos pagamentos via PIX, cartão de crédito/débito e Apple Pay (nestas duas opções pode haver taxa). Ao escolher PIX, será enviado um código de verificação para confirmar que seu WhatsApp é válido, pois é por lá que o organizador irá se comunicar com você. Após o pagamento ser confirmado, o organizador enviará seus números pelo WhatsApp de acordo com a quantidade comprada. Esse processo é manual, então pedimos um pouquinho de paciência. Em caso de dúvidas, você pode entrar em contato diretamente com o organizador na própria página de pagamento.",
+    },
+    {
       pergunta: "Como funciona a rifa?",
       resposta:
         "Você escolhe uma rifa ativa e faz o pagamento de quantos números desejar. Após a confirmação, você deve entrar em contato pelo WhatsApp com o organizador para receber seus números de acordo com a quantia paga. No dia do sorteio, com base na Loteria Federal, o ganhador é definido de acordo com o resultado publicado.",
@@ -19,26 +24,26 @@ export const FAQSection = () => {
     {
       pergunta: "Quando será o sorteio?",
       resposta:
-        "A data do sorteio será anunciada no grupo oficial da ação e no anúncio da rifa. Caso a data seja alterada, os participantes serão avisados com antecedência.",
+        "A data do sorteio será anunciada pelo Email ou WhatsApp do participante quando estiver próximo de esgotar a quantidade total de bilhetes. Caso a data seja alterada, os participantes serão avisados com antecedência.",
     },
     {
       pergunta: "Como recebo meu prêmio se ganhar?",
       resposta:
-        "Entraremos em contato diretamente pelo WhatsApp do ganhador. A entrega ou retirada será combinada de acordo com sua localização. Se for físico, pode ser entregue pessoalmente ou enviado; se for valor, é transferido.",
+        "Entraremos em contato diretamente pelo WhatsApp do ganhador. Iremos combinar sobre como será a forma de recebimento do prêmio",
     },
     {
       pergunta: "Posso comprar quantos números?",
       resposta:
-        "Sim! Você pode comprar quantos números desejar, desde que estejam disponíveis no momento da compra.",
+        "Você pode comprar quantos números desejar, desde que estejam disponíveis no momento da compra.",
     },
     {
       pergunta: "Como sei que meu número foi reservado?",
       resposta:
-        "Após o pagamento ser confirmado, você recebe uma mensagem de confirmação com o(s) número(s) reservado(s). Também pode consultar no painel da ação ou diretamente com o organizador.",
+        "Após o pagamento ser confirmado, o organizador irá receber uma notificação, gerar seu(s) número(s) e te irá te enviar uma mensagem no Email/WhatsApp indicando quais foram seus números gerados.",
     },
     {
       pergunta: "Qual a forma de pagamento?",
-      resposta: "Aceitamos Pix e Cartão de crédito/débito.",
+      resposta: "Aceitamos Pix, Cartão de crédito/débito e Apple Pay.",
     },
     {
       pergunta:
@@ -50,7 +55,7 @@ export const FAQSection = () => {
       pergunta:
         "E se o número sorteado da Loteria Federal for maior que a quantidade de números da rifa?",
       resposta:
-        "Com 100 números disponíveis, usamos apenas os 2 últimos dígitos do resultado da Loteria Federal. Se sair 00, o vencedor é o número 100. Se sair de 01 a 99, esse é o número vencedor.",
+        "Verifique a regra oficial do sorteio para solucionar suas dúvidas, qualquer coisa, entre em contato no WhatsApp.",
     },
   ];
 
