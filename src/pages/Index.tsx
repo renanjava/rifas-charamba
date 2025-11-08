@@ -70,11 +70,20 @@ const Index = () => {
           <Card className="overflow-hidden border-2 mb-8 animate-fade-in shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-500">
             <CardContent className="p-0">
               <div className="grid md:grid-cols-2 gap-0">
-                <div className="relative aspect-video md:aspect-auto overflow-hidden bg-muted/30">
+                <div className="relative w-full overflow-hidden bg-muted/30 rounded-lg">
                   <img
                     src={product.image_url}
-                    alt="Produto da Rifa - Smartphone Premium"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    alt={`Prêmio - ${product.title}`}
+                    className="
+                      w-full
+                      h-auto
+                      max-h-[260px]        /* altura máxima no mobile */
+                      md:max-h-[420px]     /* altura máxima no desktop */
+                      object-contain       /* não corta no mobile */
+                      md:object-cover      /* fica bonito no desktop */
+                      transition-transform duration-700
+                      hover:scale-105
+                    "
                   />
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-accent text-accent-foreground font-bold text-sm px-3 py-1">
