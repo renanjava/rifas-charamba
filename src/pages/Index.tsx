@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import * as XLSX from "xlsx";
 import {
   Instagram,
   Shield,
@@ -24,7 +26,85 @@ import {
 import { PARTICIPANTS_URL, PAYMENT_URL } from "@/constants/global.constants";
 
 const Index = () => {
-  const [open, setOpen] = useState(false);
+  const [openRules, setOpenRules] = useState(false);
+  const [openTable, setOpenTable] = useState(false);
+
+  const [tableData, setTableData] = useState<any[]>([]);
+
+  const fetchExcel = async () => {
+    try {
+      const response = await fetch(PARTICIPANTS_URL);
+      const arrayBuffer = await response.arrayBuffer();
+
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+
+      const json = XLSX.utils.sheet_to_json(worksheet, {
+        defval: null,
+        raw: false,
+      });
+
+      const filteredRows = json.filter((row: any) =>
+        Object.values(row).some(
+          (value) =>
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== "" &&
+            String(value).toLowerCase() !== "null"
+        )
+      );
+
+      const columnsWithData = new Set<string>();
+      for (const row of filteredRows) {
+        for (const [key, value] of Object.entries(row)) {
+          if (
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== "" &&
+            String(value).toLowerCase() !== "null"
+          ) {
+            columnsWithData.add(key);
+          }
+        }
+      }
+
+      const cleanData = filteredRows
+        .map((row: any) => {
+          const cleanRow: Record<string, any> = {};
+
+          for (const col of columnsWithData) {
+            const raw = row[col];
+            if (
+              raw !== null &&
+              raw !== undefined &&
+              String(raw).trim() !== "" &&
+              String(raw).toLowerCase() !== "null"
+            ) {
+              cleanRow[col] = raw;
+            }
+          }
+
+          return cleanRow;
+        })
+        .filter((row) => Object.keys(row).length > 0)
+        .filter((row) => {
+          const values = Object.values(row);
+          const secondColumn = values[1];
+          return (
+            secondColumn !== null &&
+            secondColumn !== undefined &&
+            String(secondColumn).trim() !== ""
+          );
+        });
+
+      setTableData(cleanData);
+      setOpenTable(true);
+    } catch (err) {
+      console.error(err);
+      alert("Não foi possível carregar a planilha.");
+    }
+  };
 
   const handleReserva = () => {
     window.location.href = PAYMENT_URL;
@@ -77,10 +157,10 @@ const Index = () => {
                     className="
                       w-full
                       h-auto
-                      max-h-[260px]        /* altura máxima no mobile */
-                      md:max-h-[420px]     /* altura máxima no desktop */
-                      object-contain       /* não corta no mobile */
-                      md:object-cover      /* fica bonito no desktop */
+                      max-h-[260px]
+                      md:max-h-[420px]
+                      object-contain
+                      md:object-cover
                       transition-transform duration-700
                       hover:scale-105
                     "
@@ -199,10 +279,10 @@ const Index = () => {
                       escolhidos:
                     </p>
                     <a
-                      href={PARTICIPANTS_URL}
+                      onClick={fetchExcel}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary font-medium hover:underline mt-2 inline-block"
+                      className="text-primary font-medium hover:underline mt-2 inline-block cursor-pointer"
                     >
                       Ver lista de números reservados
                     </a>
@@ -233,7 +313,7 @@ const Index = () => {
                     </p>
                   </div>
 
-                  <Dialog open={open} onOpenChange={setOpen}>
+                  <Dialog open={openRules} onOpenChange={setOpenRules}>
                     <DialogTrigger asChild>
                       <Button
                         variant="outline"
@@ -355,6 +435,67 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
+
+        <Dialog open={openTable} onOpenChange={setOpenTable}>
+          <DialogContent className="max-w-3xl max-h-[75vh] overflow-auto">
+            <DialogHeader>
+              <DialogTitle>Números Reservados</DialogTitle>
+            </DialogHeader>
+            {tableData.length === 0 ? (
+              <div className="p-8 text-center text-muted-foreground">
+                Nenhum número reservado ainda
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-muted/50">
+                      {Object.keys(tableData[0]).map((key) => (
+                        <th
+                          key={key}
+                          className="border-b-2 border-border p-3 text-left font-semibold"
+                        >
+                          {key === "__EMPTY"
+                            ? "Número"
+                            : key === "A"
+                            ? "Participante"
+                            : key}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableData.map((row, i) => (
+                      <tr
+                        key={i}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
+                        {Object.entries(row).map(
+                          ([key, value]: [string, any], j) => {
+                            let displayValue = String(value);
+                            const num = parseInt(value);
+                            if (!isNaN(num) && num >= 0 && num <= 999) {
+                              displayValue = num.toString().padStart(3, "0");
+                            }
+
+                            return (
+                              <td
+                                key={j}
+                                className="border-b border-border p-3"
+                              >
+                                {displayValue}
+                              </td>
+                            );
+                          }
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </main>
 
       <footer className="container mx-auto px-4 py-8 mt-16 border-t border-border">
