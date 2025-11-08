@@ -9,12 +9,12 @@ export const FAQSection = () => {
     {
       pergunta: "Como eu realizo uma reserva?",
       resposta:
-        "Ao clicar na rifa, você pode selecionar a quantidade de números desejada. Depois, clique em 'Comprar Agora' para visualizar o valor total e preencher seu nome, telefone e e-mail. Aceitamos pagamentos via PIX, cartão de crédito/débito e Apple Pay (nestas duas opções pode haver taxa). Ao escolher PIX, será enviado um código de verificação para confirmar que seu WhatsApp é válido, pois é por lá que o organizador irá se comunicar com você. Após o pagamento ser confirmado, o organizador enviará seus números pelo WhatsApp de acordo com a quantidade comprada. Esse processo é manual, então pedimos um pouquinho de paciência. Em caso de dúvidas, você pode entrar em contato diretamente com o organizador na própria página de pagamento.",
+        "Ao clicar na rifa, você pode selecionar a quantidade de números desejada. Depois, clique em 'Comprar Agora' para visualizar o valor total e preencher seu nome, telefone e e-mail. Aceitamos pagamentos via PIX, cartão de crédito/débito e Apple Pay (nestas duas opções pode haver taxa). Ao escolher PIX, será enviado um código de verificação para confirmar que seu WhatsApp é válido, pois é por lá que o organizador irá se comunicar com você caso for o ganhador do prêmio. Após o pagamento ser confirmado, o organizador irá atualizar a lista de números reservados e você pode consultar para visualizar seu(s) número(s). A lista de números reservados pode demorar a atualizar, então pedimos um pouco de paciência. Em caso de dúvidas, você pode entrar em contato diretamente com o organizador na própria página de pagamento.",
     },
     {
       pergunta: "Como funciona a rifa?",
       resposta:
-        "Você escolhe uma rifa ativa e faz o pagamento de quantos números desejar. Após a confirmação, você deve entrar em contato pelo WhatsApp com o organizador para receber seus números de acordo com a quantia paga. No dia do sorteio, com base na Loteria Federal, o ganhador é definido de acordo com o resultado publicado.",
+        "Você escolhe uma rifa ativa e faz o pagamento de quantos números desejar. No dia do sorteio, com base na Loteria Federal, o ganhador é definido de acordo com o resultado publicado.",
     },
     {
       pergunta: "Como é feito o sorteio?",
@@ -24,7 +24,7 @@ export const FAQSection = () => {
     {
       pergunta: "Quando será o sorteio?",
       resposta:
-        "A data do sorteio será anunciada pelo Email ou WhatsApp do participante quando estiver próximo de esgotar a quantidade total de bilhetes. Caso a data seja alterada, os participantes serão avisados com antecedência.",
+        "A data do sorteio será anunciada nessa plataforma quando estiver próximo de esgotar a quantidade total de bilhetes. Caso a data seja alterada, os participantes serão avisados com antecedência.",
     },
     {
       pergunta: "Como recebo meu prêmio se ganhar?",
@@ -39,7 +39,7 @@ export const FAQSection = () => {
     {
       pergunta: "Como sei que meu número foi reservado?",
       resposta:
-        "Após o pagamento ser confirmado, o organizador irá receber uma notificação, gerar seu(s) número(s) e te irá te enviar uma mensagem no Email/WhatsApp indicando quais foram seus números gerados.",
+        "Após o pagamento ser confirmado, o organizador irá receber uma notificação, gerar seu(s) número(s) e atualizar a lista de números reservados aqui na plataforma para você visualizar.",
     },
     {
       pergunta: "Qual a forma de pagamento?",

@@ -51,7 +51,7 @@ const Index = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 animate-fade-in">
             <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-              Rifa Ativa
+              Ação entre Amigos
             </Badge>
             <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               Smartphone Premium
