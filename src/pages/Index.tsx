@@ -2,7 +2,14 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, Shield, Calendar, Info } from "lucide-react";
+import {
+  Instagram,
+  Shield,
+  Calendar,
+  Info,
+  ListChecks,
+  CreditCard,
+} from "lucide-react";
 import productHero from "@/assets/product-hero.jpg";
 import FAQSection from "@/components/FAQSection";
 import { useState } from "react";
@@ -14,13 +21,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { PARTICIPANTS_URL, PAYMENT_URL } from "@/constants/global.constants";
 
 const Index = () => {
   const [open, setOpen] = useState(false);
 
   const handleReserva = () => {
-    window.location.href =
-      "https://loja.infinitepay.io/renan-g-l/akc2405-bilhete-iphone-xr";
+    window.location.href = PAYMENT_URL;
   };
 
   return (
@@ -113,12 +120,31 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="font-bold mb-2 text-lg">
-                      100% Seguro e Confiável
+                      100% Confiança no Resultado
                     </h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      O sorteio será baseado na <strong>Loteria Federal</strong>{" "}
-                      para garantir total transparência e confiabilidade no
-                      resultado.
+                      O sorteio será realizado com base na{" "}
+                      <strong>Loteria Federal</strong>, garantindo total
+                      transparência e imparcialidade.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/50 transition-colors duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-full bg-primary/10">
+                    <CreditCard className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-2 text-lg">
+                      100% Segurança no Pagamento
+                    </h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      O pagamento é processado pela <strong>InfinitePay</strong>
+                      , garantindo segurança e proteção de todos os seus dados.
                     </p>
                   </div>
                 </div>
@@ -135,38 +161,40 @@ const Index = () => {
                     <h4 className="font-bold mb-2 text-lg">Data do Sorteio</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       A data será divulgada em breve através do nosso Instagram
-                      oficial. Fique de olho!
+                      oficial. Fique atento!
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
 
-          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent mb-8">
-            <CardContent className="p-8 text-center">
-              <div className="flex flex-col items-center gap-4">
-                <div className="p-4 rounded-full bg-primary/10">
-                  <Instagram className="w-8 h-8 text-primary" />
+            <Card className="border-2 hover:border-primary/50 transition-colors duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-full bg-accent/10">
+                    <ListChecks className="w-6 h-6 text-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-2 text-lg">
+                      Visualize os números já reservados
+                    </h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Clique abaixo para verificar os números que já foram
+                      escolhidos:
+                    </p>
+                    <a
+                      href={PARTICIPANTS_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary font-medium hover:underline mt-2 inline-block"
+                    >
+                      Ver lista de números reservados
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xl font-bold mb-2">
-                    Siga nosso Instagram
-                  </h4>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg font-semibold text-primary hover:text-primary-glow transition-colors inline-flex items-center gap-2"
-                  >
-                    Em breve...
-                  </a>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Acompanhe os sorteios, ganhadores e novidades!
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
 
           <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-transparent mb-8 animate-fade-in">
             <CardContent className="p-8">
@@ -285,6 +313,31 @@ const Index = () => {
           </Card>
 
           <FAQSection />
+
+          <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent mt-12">
+            <CardContent className="p-8 text-center">
+              <div className="flex flex-col items-center gap-4">
+                <div className="p-4 rounded-full bg-primary/10">
+                  <Instagram className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">
+                    Siga nosso Instagram
+                  </h4>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-semibold text-primary hover:text-primary-glow transition-colors inline-flex items-center gap-2"
+                  >
+                    Em breve...
+                  </a>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Acompanhe os sorteios, ganhadores e novidades!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
