@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import product from "@/assets/data/product.json";
 import FAQSection from "@/components/FAQSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,14 @@ const Index = () => {
   const [openTable, setOpenTable] = useState(false);
 
   const [tableData, setTableData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchExcel();
+  }, []);
+
+  const totalDisponivel = 200;
+  const reservados = tableData.length;
+  const progresso = Math.min((reservados / totalDisponivel) * 100, 100);
 
   const fetchExcel = async () => {
     try {
@@ -99,7 +107,6 @@ const Index = () => {
         });
 
       setTableData(cleanData);
-      setOpenTable(true);
     } catch (err) {
       console.error(err);
       alert("Não foi possível carregar a planilha.");
@@ -221,6 +228,20 @@ const Index = () => {
                   </div>
                 </div>
               </div>
+              <div className="w-full">
+                <div className="flex justify-between mb-2 text-sm text-muted-foreground">
+                  <span>Progresso da Rifa</span>
+                  <span>
+                    {reservados} / {totalDisponivel}
+                  </span>
+                </div>
+                <div className="w-full h-3 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-primary transition-all duration-700"
+                    style={{ width: `${progresso}%` }}
+                  />
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -279,7 +300,10 @@ const Index = () => {
                       escolhidos:
                     </p>
                     <a
-                      onClick={fetchExcel}
+                      onClick={() => {
+                        fetchExcel();
+                        setOpenTable(true);
+                      }}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary font-medium hover:underline mt-2 inline-block cursor-pointer"
