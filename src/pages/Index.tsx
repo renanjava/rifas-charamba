@@ -9,6 +9,7 @@ import {
   Info,
   ListChecks,
   CreditCard,
+  Sparkles,
 } from "lucide-react";
 import productHero from "@/assets/product-hero.jpg";
 import FAQSection from "@/components/FAQSection";
@@ -34,15 +35,15 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-background/95 transition-colors duration-300">
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">
-              DDS
-            </span>
+          <div className="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shadow-sm">
+            <Sparkles className="w-6 h-6 text-primary" />
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/70 to-white/90 dark:to-zinc-200/90">
             Dia Da Sorte
           </h1>
         </div>
+
         <ThemeToggle />
       </header>
 
