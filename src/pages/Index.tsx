@@ -41,75 +41,109 @@ const Index = () => {
 
   const fetchExcel = async () => {
     try {
-      const response = await fetch(PARTICIPANTS_URL);
-      const arrayBuffer = await response.arrayBuffer();
+      let fetchUrl = PARTICIPANTS_URL;
 
-      const workbook = XLSX.read(arrayBuffer, { type: "array" });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-
-      const json = XLSX.utils.sheet_to_json(worksheet, {
-        defval: null,
-        raw: false,
-      });
-
-      const filteredRows = json.filter((row: any) =>
-        Object.values(row).some(
-          (value) =>
-            value !== null &&
-            value !== undefined &&
-            String(value).trim() !== "" &&
-            String(value).toLowerCase() !== "null"
-        )
-      );
-
-      const columnsWithData = new Set<string>();
-      for (const row of filteredRows) {
-        for (const [key, value] of Object.entries(row)) {
-          if (
-            value !== null &&
-            value !== undefined &&
-            String(value).trim() !== "" &&
-            String(value).toLowerCase() !== "null"
-          ) {
-            columnsWithData.add(key);
-          }
+      if (PARTICIPANTS_URL.includes("docs.google.com/spreadsheets")) {
+        const match = PARTICIPANTS_URL.match(/\/d\/([a-zA-Z0-9-_]+)/);
+        if (match) {
+          const sheetId = match[1];
+          fetchUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+          console.log("Detectado Google Sheets, usando CSV export:", fetchUrl);
         }
       }
 
-      const cleanData = filteredRows
-        .map((row: any) => {
-          const cleanRow: Record<string, any> = {};
+      const response = await fetch(fetchUrl, {
+        method: "GET",
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+        cache: "no-store",
+      });
 
-          for (const col of columnsWithData) {
-            const raw = row[col];
-            if (
-              raw !== null &&
-              raw !== undefined &&
-              String(raw).trim() !== "" &&
-              String(raw).toLowerCase() !== "null"
-            ) {
-              cleanRow[col] = raw;
-            }
-          }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-          return cleanRow;
-        })
-        .filter((row) => Object.keys(row).length > 0)
-        .filter((row) => {
-          const values = Object.values(row);
-          const secondColumn = values[1];
-          return (
-            secondColumn !== null &&
-            secondColumn !== undefined &&
-            String(secondColumn).trim() !== ""
-          );
+      const arrayBuffer = await response.arrayBuffer();
+
+      const workbook = XLSX.read(arrayBuffer, {
+        type: "array",
+        sheetRows: 0,
+        cellDates: true,
+        cellNF: false,
+        cellText: false,
+        dense: false,
+      });
+
+      console.log("Abas disponíveis:", workbook.SheetNames);
+
+      let allData: any[] = [];
+
+      for (const sheetName of workbook.SheetNames) {
+        console.log(`\n--- Processando aba: ${sheetName} ---`);
+        const worksheet = workbook.Sheets[sheetName];
+
+        const range = worksheet["!ref"];
+        console.log(`Range detectado na aba ${sheetName}:`, range);
+
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+          header: 1,
+          defval: "",
+          blankrows: false,
+          raw: false,
         });
+
+        console.log(
+          `Total de linhas lidas na aba ${sheetName}:`,
+          jsonData.length
+        );
+        console.log(`Primeira linha (headers):`, jsonData[0]);
+        console.log(`Segunda linha (exemplo):`, jsonData[1]);
+
+        const sheetData = jsonData;
+
+        if (sheetData.length > allData.length) {
+          allData = sheetData;
+        }
+      }
+
+      console.log("\n=== RESULTADO FINAL ===");
+      console.log("Total de linhas com dados:", allData.length);
+
+      if (allData.length === 0) {
+        throw new Error("Nenhum dado encontrado na planilha");
+      }
+
+      const cleanData: any[] = [];
+
+      allData.forEach((row: any[], index: number) => {
+        const participante = row.find(
+          (val: any) =>
+            val !== undefined && val !== null && String(val).trim() !== ""
+        );
+
+        if (participante && String(participante).trim() !== "") {
+          const numero = (index + 1).toString().padStart(3, "0");
+          cleanData.push({
+            Número: numero,
+            Participante: String(participante).trim(),
+          });
+        }
+      });
+
+      console.log("Total de números reservados:", cleanData.length);
+      console.log("Primeiras 5 reservas:", cleanData.slice(0, 5));
+      console.log("Últimas 3 reservas:", cleanData.slice(-3));
 
       setTableData(cleanData);
     } catch (err) {
-      console.error(err);
-      alert("Não foi possível carregar a planilha.");
+      console.error("Erro ao carregar planilha:", err);
+      alert(
+        `Não foi possível carregar a planilha. Erro: ${
+          err instanceof Error ? err.message : "Desconhecido"
+        }`
+      );
     }
   };
 
@@ -461,31 +495,29 @@ const Index = () => {
         </div>
 
         <Dialog open={openTable} onOpenChange={setOpenTable}>
-          <DialogContent className="max-w-3xl max-h-[75vh] overflow-auto">
-            <DialogHeader>
-              <DialogTitle>Números Reservados</DialogTitle>
+          <DialogContent className="max-w-3xl h-[85vh] flex flex-col">
+            <DialogHeader className="flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <DialogTitle>
+                  Números Reservados ({tableData.length} de {totalDisponivel})
+                </DialogTitle>
+              </div>
             </DialogHeader>
             {tableData.length === 0 ? (
               <div className="p-8 text-center text-muted-foreground">
                 Nenhum número reservado ainda
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="flex-1 overflow-auto min-h-0">
                 <table className="w-full text-sm border-collapse">
-                  <thead>
+                  <thead className="sticky top-0 bg-background z-10">
                     <tr className="bg-muted/50">
-                      {Object.keys(tableData[0]).map((key) => (
-                        <th
-                          key={key}
-                          className="border-b-2 border-border p-3 text-left font-semibold"
-                        >
-                          {key === "__EMPTY"
-                            ? "Número"
-                            : key === "A"
-                            ? "Participante"
-                            : key}
-                        </th>
-                      ))}
+                      <th className="border-b-2 border-border p-3 text-left font-semibold">
+                        Número
+                      </th>
+                      <th className="border-b-2 border-border p-3 text-left font-semibold">
+                        Participante
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -494,24 +526,12 @@ const Index = () => {
                         key={i}
                         className="hover:bg-muted/30 transition-colors"
                       >
-                        {Object.entries(row).map(
-                          ([key, value]: [string, any], j) => {
-                            let displayValue = String(value);
-                            const num = parseInt(value);
-                            if (!isNaN(num) && num >= 0 && num <= 999) {
-                              displayValue = num.toString().padStart(3, "0");
-                            }
-
-                            return (
-                              <td
-                                key={j}
-                                className="border-b border-border p-3"
-                              >
-                                {displayValue}
-                              </td>
-                            );
-                          }
-                        )}
+                        <td className="border-b border-border p-3">
+                          {row["Número"]}
+                        </td>
+                        <td className="border-b border-border p-3">
+                          {row["Participante"]}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
