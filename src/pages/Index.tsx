@@ -37,7 +37,10 @@ const Index = () => {
 
   const totalDisponivel = 200;
   const reservados = tableData.length;
-  const porcentagem = ((reservados / totalDisponivel) * 100).toFixed(0);
+  const porcentagem = Math.min(
+    100,
+    Math.round((reservados / totalDisponivel) * 100)
+  );
 
   const fetchExcel = async () => {
     try {
@@ -499,7 +502,7 @@ const Index = () => {
             <DialogHeader className="flex-shrink-0">
               <div className="flex items-center justify-between">
                 <DialogTitle>
-                  Números Reservados ({tableData.length} de {totalDisponivel})
+                  Números Reservados
                 </DialogTitle>
               </div>
             </DialogHeader>
