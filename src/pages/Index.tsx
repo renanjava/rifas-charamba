@@ -341,9 +341,17 @@ const Index = () => {
                         fetchExcel();
                         setOpenTable(true);
                       }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary font-medium hover:underline mt-2 inline-block cursor-pointer"
+                      className="
+                        inline-flex items-center justify-center
+                        px-4 py-2 mt-6
+                        bg-primary text-primary-foreground
+                        rounded-md
+                        font-semibold
+                        shadow-sm
+                        transition-all
+                        hover:bg-primary/90 hover:shadow-md
+                        cursor-pointer
+                      "
                     >
                       Ver lista de números reservados
                     </a>
